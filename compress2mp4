@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #
 # compress2mp4
-# Version: 2017-04-08
+# Version: 1.0
 # By: AndriusWild
-# Licence: CC0
+# Licence: GPL
 #
 # This Bash script transcodes the specified video files (wildcards supported) to lossy h.264 format in an MP4 container.
 #
