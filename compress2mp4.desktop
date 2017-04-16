@@ -1,0 +1,12 @@
+[Desktop Entry]
+Categories=AudioVideo;Video;
+Comment=Batch compress to mp4
+Exec="\\$HOME/scripts/compress2mp4" %F
+GenericName=compress2mp4
+MimeType=video/avi;video/mpeg;video/x-motion-jpeg;video/quicktime;video/mkv;video/mp4;
+Name="Compress to mp4"
+NoDisplay=false
+StartupNotify=true
+Terminal=true
+Type=Application
+Version=1.0
