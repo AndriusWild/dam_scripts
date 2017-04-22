@@ -1,12 +1,22 @@
 [Desktop Entry]
 Categories=AudioVideo;Video;
-Comment=Batch compress to mp4
-Exec="\\$HOME/scripts/compress2mp4" %F
-GenericName=compress2mp4
-MimeType=video/avi;video/mpeg;video/x-motion-jpeg;video/quicktime;video/mkv;video/mp4;
-Name="Compress to mp4"
+Comment[en_US]=This Bash script compresses the specified video files (wildcards supported) to lossy h.264 format in an MP4 container
+Comment=This Bash script compresses the specified video files (wildcards supported) to lossy h.264 format in an MP4 container
+Exec="\\$HOME/Scripts/Git/compress2mp4.sh" %F
+GenericName[en_US]=Batch compress to mp4
+GenericName=Batch compress to mp4
+Icon=/home/andrey/Scripts/Git/compress2mp4_icon.png
+MimeType=video/x-msvideo;video/quicktime;video/mpeg;video/mp4;
+Name[en_US]=Compress to mp4
+Name=Compress to mp4
 NoDisplay=false
+Path=
 StartupNotify=true
 Terminal=true
+TerminalOptions=\s--noclose
 Type=Application
 Version=1.0
+X-DBUS-ServiceName=
+X-DBUS-StartupType=none
+X-KDE-SubstituteUID=false
+X-KDE-Username=

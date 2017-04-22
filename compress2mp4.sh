@@ -18,18 +18,28 @@
 # Or create the .desktop file as shown below, select multiple files in your file manager and open them with this script.
 # Sample .desktop file in $HOME/.local/share/applications/compress2mp4.desktop
 #
-# [Desktop Entry]
-# Categories=AudioVideo;Video;
-# Comment=Batch convert to mp4
-# Exec="\\$HOME/scripts/compress2mp4" %F
-# GenericName=compress2mp4
-# MimeType=video/avi;video/mpeg;video/x-motion-jpeg;video/quicktime;video/mkv;video/mp4;
-# Name="Compress to mp4"
-# NoDisplay=false
-# StartupNotify=true
-# Terminal=true
-# Type=Application
-# Version=1.0
+#[Desktop Entry]
+#Categories=AudioVideo;Video;
+#Comment[en_US]=This Bash script compresses the specified video files (wildcards supported) to lossy h.264 format in an MP4 container
+#Comment=This Bash script compresses the specified video files (wildcards supported) to lossy h.264 format in an MP4 container
+#Exec="\\$HOME/Scripts/Git/compress2mp4.sh" %F
+#GenericName[en_US]=Batch compress to mp4
+#GenericName=Batch compress to mp4
+#Icon=/home/andrey/Scripts/Git/compress2mp4_icon.png
+#MimeType=video/x-msvideo;video/quicktime;video/mpeg;video/mp4;
+#Name[en_US]=Compress to mp4
+#Name=Compress to mp4
+#NoDisplay=false
+#Path=
+#StartupNotify=true
+#Terminal=true
+#TerminalOptions=\s--noclose
+#Type=Application
+#Version=1.0
+#X-DBUS-ServiceName=
+#X-DBUS-StartupType=none
+#X-KDE-SubstituteUID=false
+#X-KDE-Username=
 
 # 1. FFmpeg parameters
 cv="libx264"
@@ -45,8 +55,8 @@ store_originals_folder="/home/andrey/Video_files_originals"
 # 3. Path to Bento4 SDK
 # If you compiled Bento4 SDK from sources you should skip this step and use "mp4extract" and "mp4edit" direct
 # If you downloaded binaries please make sure to mark mp4extract and mp4edit files as executable as well as change the path below
-mp4extract="/home/andrey/AppImages/Bento4-SDK-1-5-0-614/bin/mp4extract"
-mp4edit="/home/andrey/AppImages/Bento4-SDK-1-5-0-614/bin/mp4edit"
+mp4extract="/home/andrey/Programs/Bento4-SDK-1-5-0-614/bin/mp4extract"
+mp4edit="/home/andrey/Programs/Bento4-SDK-1-5-0-614/bin/mp4edit"
 
 # 4. Creating folder to store originals
 # Folder will be created in /home/user directory by default. You change the path to the desired location replacing "~/" with the path of your choice, e.g. "/mnt/data/backup"
@@ -223,8 +233,8 @@ for f in "$@"; do
 if [[ $answer_move_1 = "y" ]]; then
     echo -e "${ORANGE}Moving file ${count}/${#@} ${UNDERLINE}"$(basename "${f}")"${NC}${ORANGE} to ${BOLD}"${store_originals_folder}"${NC}"
     mv "${f}" "${store_originals_folder}"/"$(basename "${f}")"
-    else
-    exit 1
+#    else
+#    exit 1
     fi
  ((count++))
 done
