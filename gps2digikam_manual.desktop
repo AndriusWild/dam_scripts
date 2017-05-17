@@ -1,0 +1,16 @@
+[Desktop Entry]
+Comment=This script gets GPS coordinates of the format A from the clipboard, converts them to the format B and returns the converted string back to the clipboard
+Exec=/path/to/gps2digikam_manual.sh
+GenericName=gps2digikam_manual
+Icon=gps
+MimeType=video/x-msvideo;video/quicktime;video/mpeg;video/mp4;
+Name=gps2digikam_manual
+Path=/path/to
+StartupNotify=true
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

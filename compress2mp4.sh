@@ -20,14 +20,11 @@
 #
 #[Desktop Entry]
 #Categories=AudioVideo;Video;
-#Comment[en_US]=This Bash script compresses the specified video files (wildcards supported) to lossy h.264 format in an MP4 container
 #Comment=This Bash script compresses the specified video files (wildcards supported) to lossy h.264 format in an MP4 container
-#Exec="\\$HOME/Scripts/Git/compress2mp4.sh" %F
-#GenericName[en_US]=Batch compress to mp4
+#Exec="path/to/compress2mp4.sh" %F
 #GenericName=Batch compress to mp4
-#Icon=/home/andrey/Scripts/Git/compress2mp4_icon.png
+#Icon=video-mp4
 #MimeType=video/x-msvideo;video/quicktime;video/mpeg;video/mp4;
-#Name[en_US]=Compress to mp4
 #Name=Compress to mp4
 #NoDisplay=false
 #Path=
@@ -40,6 +37,7 @@
 #X-DBUS-StartupType=none
 #X-KDE-SubstituteUID=false
 #X-KDE-Username=
+
 
 # 1. FFmpeg parameters
 cv="libx264"

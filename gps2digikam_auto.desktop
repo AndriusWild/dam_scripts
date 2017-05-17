@@ -1,0 +1,16 @@
+[Desktop Entry]
+Comment=This script reads GPS coordinates from video files, converts them to the format readable by digiKam Geolocation Editor and returns the converted string to the clipboard
+Exec="/path/to/gps2digikam_auto.sh" %F
+GenericName=Copy GPS coordinates to clipboard for pasting to digiKam Geolocation Editor after
+Icon=gps
+MimeType=video/x-msvideo;video/quicktime;video/mpeg;video/mp4;
+Name=Copy GPS to clipboard
+Path=
+StartupNotify=false
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=none
+X-KDE-SubstituteUID=false
+X-KDE-Username=
