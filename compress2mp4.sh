@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
 #
 # compress2mp4
-# Version: 1.0
+# Version: 1.1
 # By: AndriusWild
 # Licence: GPLv3
 #
-# This Bash script compresses the specified video files (wildcards supported) to lossy h.264 format in an MP4 container.
+# This bash script compresses the specified video files (wildcards supported) to lossy h.264 format in an MP4 container.
 #
 # Usage:
 # compress2mp4 <video/files/with/path.ext>
 #
 # Examples:
-# /home/you/scripts/compress2mp4 /home/you/videos/foo.avi
-# /home/you/scripts/compress2mp4 /home/you/videos/*.avi
-# /home/you/scripts/compress2mp4 /home/you/videos/*
+# /home/user/scripts/compress2mp4.sh /home/user/videos/foo.avi
+# /home/user/scripts/compress2mp4.sh /home/user/videos/*.avi
+# /home/user/scripts/compress2mp4.sh /home/user/videos/*
 #
 # Or create the .desktop file as shown below, select multiple files in your file manager and open them with this script.
 # Sample .desktop file in $HOME/.local/share/applications/compress2mp4.desktop
 #
 #[Desktop Entry]
 #Categories=AudioVideo;Video;
-#Comment=This Bash script compresses the specified video files (wildcards supported) to lossy h.264 format in an MP4 container
+#Comment=This bash script compresses the specified video files (wildcards supported) to lossy h.264 format in an MP4 container
 #Exec="path/to/compress2mp4.sh" %F
 #GenericName=Batch compress to mp4
 #Icon=video-mp4
@@ -32,32 +32,33 @@
 #Terminal=true
 #TerminalOptions=\s--noclose
 #Type=Application
-#Version=1.0
-#X-DBUS-ServiceName=
-#X-DBUS-StartupType=none
-#X-KDE-SubstituteUID=false
-#X-KDE-Username=
-
 
 # 1. FFmpeg parameters
+
 cv="libx264"
 crf="23"
 preset="slow"
 ca="libfdk_aac"
 ba="192k"
 loglevel="warning" #switch loglevel to "info" if you want to see informative messages during processing (default mode)
-# 2. Suffixes to be added to filenames
+
+# 2.1 Suffixes to be added to filenames
 suffix="${cv//lib/}"
 suffix2="gps" #this one is temporary
-store_originals_folder="/home/andrey/Video_files_originals"
+
+# 2.2 Path to the folder to store originals. Please change to the location of your choice.
+
+store_originals_folder="/mnt/data/Video_files_originals"
+
 # 3. Path to Bento4 SDK
-# If you compiled Bento4 SDK from sources you should skip this step and use "mp4extract" and "mp4edit" direct
+# If you compiled Bento4 SDK from sources you should skip this step and use "mp4extract" and "mp4edit" straight
 # If you downloaded binaries please make sure to mark mp4extract and mp4edit files as executable as well as change the path below
+
 mp4extract="/home/andrey/Programs/Bento4-SDK-1-5-0-614/bin/mp4extract"
 mp4edit="/home/andrey/Programs/Bento4-SDK-1-5-0-614/bin/mp4edit"
 
 # 4. Creating folder to store originals
-# Folder will be created in /home/user directory by default. You change the path to the desired location replacing "~/" with the path of your choice, e.g. "/mnt/data/backup"
+
 mkdir -p "${store_originals_folder}"
 
 # Do not edit below this line.
@@ -72,9 +73,11 @@ UNDERLINE='\033[4m'
 NC='\033[0m' # No formatting
 
 # 6. Keep junk files in /tmp
+
 pushd /tmp || exit 1
 
 # 7. Test input files for validity, abort if invalid.
+
 for f in "$@"; do
     ffprobe -v error "${f}" 1>/dev/null
     if [[ $? -ne 0 ]]; then
@@ -85,6 +88,7 @@ for f in "$@"; do
 done
 
 # 8. Compressing selected video files using ffmpeg
+
 count="1"
 for f in "$@"; do
     echo -e "${GREEN}Compressing file ${count}/${#@} ${UNDERLINE}"${f##*/}"${NC}"
@@ -94,6 +98,7 @@ for f in "$@"; do
 done
 
 # 9. Checking compression ratio
+
 count="1"
 for f in "$@"; do
     filesize_compressed=$(stat --format=%s "${f%.*}_${suffix}.mp4")
@@ -109,12 +114,13 @@ for f in "$@"; do
 #done
 
 # 10. Recompressing files with ratio < 1.5
+
     if (( $(echo "${compression_ratio} < 1.5" | bc) )); then
         echo -e "${ORANGE}Deleting file: ${count}/${#@} ${UNDERLINE} "${f%.*}_${suffix}.mp4"${NC}"
         rm -f "${f%.*}_${suffix}.mp4"
-        echo -e "${GREEN}Recompressing with CRF: $(( "${crf}" + 3 )) ${NC}"
-        echo -e "${BLUE}ffmpeg -hide_banner -loglevel "${loglevel}" -i ${UNDERLINE}"${f##*/}"${NC} ${BLUE} -y -f mp4 -c:a "${ca}" -b:a "${ba}" -c:v "${cv}" -crf $(( "${crf}" + 3 )) -preset "${preset}" -map_metadata 0 ${UNDERLINE}"$(basename "${f%.*}_${suffix}.mp4")"${NC}"
-        ffmpeg -hide_banner -loglevel "${loglevel}" -i "${f}" -y -f mp4 -c:a "${ca}" -b:a "${ba}" -c:v "${cv}" -crf $(( "${crf}" + 3 )) -preset "${preset}" -map_metadata 0 "${f%.*}_${suffix}.mp4" || exit 1
+        echo -e "${GREEN}Recompressing with CRF: $((${crf}+3)) ${NC}"
+        echo -e "${BLUE}ffmpeg -hide_banner -loglevel "${loglevel}" -i ${UNDERLINE}"${f##*/}"${NC} ${BLUE} -y -f mp4 -c:a "${ca}" -b:a "${ba}" -c:v "${cv}" -crf $((${crf}+3)) -preset "${preset}" -map_metadata 0 ${UNDERLINE}"$(basename "${f%.*}_${suffix}.mp4")"${NC}"
+        ffmpeg -hide_banner -loglevel "${loglevel}" -i "${f}" -y -f mp4 -c:a "${ca}" -b:a "${ba}" -c:v "${cv}" -crf $((${crf}+3)) -preset "${preset}" -map_metadata 0 "${f%.*}_${suffix}.mp4" || exit 1
         filesize_recompressed=$(stat --format=%s "${f%.*}_${suffix}.mp4")
         filesize_original=$(stat --format=%s "${f%.*}.mp4")
         filesize_recompressed_mb=$(echo "scale=2; ${filesize_recompressed} / 1024 / 1024" | bc)
