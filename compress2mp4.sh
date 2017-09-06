@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-#
+# -------------------------------------------------------------------------------------------------------------------------------------
 # compress2mp4
-# Version: 1.1
+# Version: 1.2
 # By: AndriusWild
 # Licence: GPLv3
-#
+# -------------------------------------------------------------------------------------------------------------------------------------
 # This bash script compresses the specified video files (wildcards supported) to lossy h.264 format in an MP4 container.
 #
 # Usage:
@@ -15,23 +15,21 @@
 # /home/user/scripts/compress2mp4.sh /home/user/videos/*.avi
 # /home/user/scripts/compress2mp4.sh /home/user/videos/*
 #
-# Or create the .desktop file as shown below, select multiple files in your file manager and open them with this script.
-# Sample .desktop file in $HOME/.local/share/applications/compress2mp4.desktop
+# You can also create a .desktop file as shown below, select multiple files in your file manager and open them with this script.
+# Place the .desktop file in $HOME/.local/share/applications/ folder.
+# Linux Mint MATE 18.2 users might need to install xterm and gnome-terminal in order to make the shortcut work.
 #
 #[Desktop Entry]
+#Type=Application
 #Categories=AudioVideo;Video;
-#Comment=This bash script compresses the specified video files (wildcards supported) to lossy h.264 format in an MP4 container
-#Exec="path/to/compress2mp4.sh" %F
-#GenericName=Batch compress to mp4
-#Icon=video-mp4
 #MimeType=video/x-msvideo;video/quicktime;video/mpeg;video/mp4;
 #Name=Compress to mp4
-#NoDisplay=false
-#Path=
-#StartupNotify=true
+#GenericName=Batch compress to mp4
+#Comment=This bash script compresses the specified video files to lossy h.264 format in an MP4 container
+#Exec=path/to/compress2mp4.sh %F
+#Icon=video-mp4 #This works in OpenSUSE KDE. You might need to change the path depending on the OS you are at, e.g. here is what I have used on Linux Mint MATE: "application-vnd.rn-realmedia"
 #Terminal=true
-#TerminalOptions=\s--noclose
-#Type=Application
+
 
 # 1. FFmpeg parameters
 
@@ -134,6 +132,7 @@ for f in "$@"; do
 done
 
 # 11. Exporting [udta] atom to *.txt using bento4/mp4extract
+
 count="1"
 for f in "$@"; do
     echo -e "${GREEN}Exporting [udta] atom using Bento4 SDK from file ${count}/${#@} ${UNDERLINE}"${f##*/}"${NC}"
@@ -143,6 +142,7 @@ for f in "$@"; do
 done
 
 # 12. Importing [udta] atom to compressed video files using bento4/mp4edit
+
 count="1"
 for f in "$@"; do
     if [ -e "${f%.*}.txt" ]; then
@@ -154,6 +154,7 @@ for f in "$@"; do
 done
 
 # 13. Verifying GPS metadata of the compressed files
+
 count="1"
 for f in "$@"; do
     if [ -e "${f%.*}_${suffix}_${suffix2}.mp4" ]; then
@@ -184,6 +185,7 @@ for f in "$@"; do
 done
 
 # 14. Deleting temporary *.txt files
+
 count="1"
 for f in "$@"; do
     if [ -e "${f%.*}.txt" ]; then
@@ -194,6 +196,7 @@ for f in "$@"; do
 done
 
 # 15. Writing FileModifyDate from QuickTime:CreateDate using exiftool
+
 count="1"
 for f in "$@"; do
     if [ -e "${f%.*}_${suffix}_${suffix2}.mp4" ]; then
@@ -205,7 +208,8 @@ for f in "$@"; do
 done
 
 
-# 16. Deleting temporary "${f%.*}_${suffix}.mp4" 
+# 16. Deleting temporary "${f%.*}_${suffix}.mp4"
+
 count="1"
 for f in "$@"; do
 #    read -p "Would you like to delete file ${count}/${#@} "$(basename "${f%.*}_${suffix}.mp4")" ? (y/n)  " answer_delete_1
@@ -219,6 +223,7 @@ for f in "$@"; do
 done
 
 # 17. Removing ${suffix2} from filenames
+
 count="1"
 for f in "$@"; do
     if [ -e "${f%.*}_${suffix}_${suffix2}.mp4" ]; then
@@ -231,6 +236,7 @@ for f in "$@"; do
 done
 
 # 18. Moving original files to "${store_originals_folder}"
+
 count="1"
 for f in "$@"; do
     read -p "Would you like to move ORIGINAL file ${count}/${#@} "$(basename "${f}")" to "${store_originals_folder}" ? (y/n)  " answer_move_1
@@ -244,5 +250,8 @@ if [[ $answer_move_1 = "y" ]]; then
 done
 
 # Done
+
 popd
 echo -e "${GREEN}${BOLD} Your files have been processed. Please review all the messages above. Warnings displayed in${RED}${BOLD} RED ${GREEN}${BOLD}color.${NC}"
+echo -e "${GREEN}${BOLD} Press any key to close the window${NC}"
+read -n1
