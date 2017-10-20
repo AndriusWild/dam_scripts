@@ -90,8 +90,8 @@ done
 count="1"
 for f in "$@"; do
     echo -e "${GREEN}Compressing file ${count}/${#@} ${UNDERLINE}"${f##*/}"${NC}"
-    echo -e "${BLUE}ffmpeg -hide_banner -loglevel "${loglevel}" -i ${UNDERLINE}"${f##*/}"${NC} ${BLUE} -y -f mp4 -c:a "${ca}" -b:a "${ba}" -c:v "${cv}" -crf "${crf}" -preset "${preset}" -map_metadata 0 ${UNDERLINE}"$(basename "${f%.*}_${suffix}.mp4")"${NC}"
-    ffmpeg -hide_banner -loglevel "${loglevel}" -i "${f}" -y -f mp4 -c:a "${ca}" -b:a "${ba}" -c:v "${cv}" -crf "${crf}" -preset "${preset}" -map_metadata 0 "${f%.*}_${suffix}.mp4" || exit 1
+    echo -e "${BLUE}ffmpeg -hide_banner -loglevel "${loglevel}" -y -i ${UNDERLINE}"${f##*/}"${NC} ${BLUE} -f mp4 -c:a "${ca}" -b:a "${ba}" -c:v "${cv}" -crf "${crf}" -preset "${preset}" -map_metadata 0 ${UNDERLINE}"$(basename "${f%.*}_${suffix}.mp4")"${NC}"
+    ffmpeg -hide_banner -loglevel "${loglevel}" -y -i "${f}" -f mp4 -c:a "${ca}" -b:a "${ba}" -c:v "${cv}" -crf "${crf}" -preset "${preset}" -map_metadata 0 "${f%.*}_${suffix}.mp4" || exit 1
     ((count++))
 done
 
@@ -117,8 +117,8 @@ for f in "$@"; do
         echo -e "${ORANGE}Deleting file: ${count}/${#@} ${UNDERLINE} "${f%.*}_${suffix}.mp4"${NC}"
         rm -f "${f%.*}_${suffix}.mp4"
         echo -e "${GREEN}Recompressing with CRF: $((${crf}+3)) ${NC}"
-        echo -e "${BLUE}ffmpeg -hide_banner -loglevel "${loglevel}" -i ${UNDERLINE}"${f##*/}"${NC} ${BLUE} -y -f mp4 -c:a "${ca}" -b:a "${ba}" -c:v "${cv}" -crf $((${crf}+3)) -preset "${preset}" -map_metadata 0 ${UNDERLINE}"$(basename "${f%.*}_${suffix}.mp4")"${NC}"
-        ffmpeg -hide_banner -loglevel "${loglevel}" -i "${f}" -y -f mp4 -c:a "${ca}" -b:a "${ba}" -c:v "${cv}" -crf $((${crf}+3)) -preset "${preset}" -map_metadata 0 "${f%.*}_${suffix}.mp4" || exit 1
+        echo -e "${BLUE}ffmpeg -hide_banner -loglevel "${loglevel}" -y -i ${UNDERLINE}"${f##*/}"${NC} ${BLUE} -f mp4 -c:a "${ca}" -b:a "${ba}" -c:v "${cv}" -crf $((${crf}+3)) -preset "${preset}" -map_metadata 0 ${UNDERLINE}"$(basename "${f%.*}_${suffix}.mp4")"${NC}"
+        ffmpeg -hide_banner -loglevel "${loglevel}" -y -i "${f}" -f mp4 -c:a "${ca}" -b:a "${ba}" -c:v "${cv}" -crf $((${crf}+3)) -preset "${preset}" -map_metadata 0 "${f%.*}_${suffix}.mp4" || exit 1
         filesize_recompressed=$(stat --format=%s "${f%.*}_${suffix}.mp4")
         filesize_original=$(stat --format=%s "${f%.*}.mp4")
         filesize_recompressed_mb=$(echo "scale=2; ${filesize_recompressed} / 1024 / 1024" | bc)

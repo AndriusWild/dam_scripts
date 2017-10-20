@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+#Categories=AudioVideo;Video;
+#MimeType=video/x-msvideo;video/quicktime;video/mpeg;video/mp4;
+Name=Locate in File Manager
+GenericName=Locate in File Manager
+Comment=Locate selected file in file manager
+Exec=/home/andrey/Scripts/Git/LocateInFileManager.sh %F
+Icon=
+Terminal=false

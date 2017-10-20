@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Select in Dolphin
+Comment=Open Dolphin with the files selected
+Exec=dolphin --select %U
+Icon=document
+MimeType=image/jpeg;image/png;image/gif;
+NoDisplay=true
+StartupNotify=true
+Terminal=false
